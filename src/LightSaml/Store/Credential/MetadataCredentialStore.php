@@ -63,6 +63,10 @@ class MetadataCredentialStore implements CredentialStoreInterface
 
     protected function handleDescriptor(SSODescriptor $ssoDescriptor, EntityDescriptor $entityDescriptor, array &$result)
     {
+        if ($ssoDescriptor->getAllKeyDescriptors() === null) {
+            return;
+        }
+
         foreach ($ssoDescriptor->getAllKeyDescriptors() as $keyDescriptor) {
             $credential = (new X509Credential($keyDescriptor->getCertificate()))
                 ->setEntityId($entityDescriptor->getEntityID())
